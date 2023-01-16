@@ -172,8 +172,9 @@ func (pre *Prestate) Apply(vmConfig vm.Config, chainConfig *params.ChainConfig,
 		evm := vm.NewEVM(vmContext, txContext, statedb, chainConfig, vmConfig)
 
 		// (ret []byte, usedGas uint64, failed bool, err error)
-		fmt.Println("+++++++++++++++++",msg.From(),"+++++++++++++++")
+		fmt.Println("+++++++execution++++++++++",msg.From(),"+++++++star++++++")
 		msgResult, err := core.ApplyMessage(evm, msg, gaspool)
+		fmt.Println("+++++++execution++++++++++",msg.From(),"++++++end+++++")
 		if err != nil {
 			statedb.RevertToSnapshot(snapshot)
 			log.Info("rejected tx", "index", i, "hash", tx.Hash(), "from", msg.From(), "error", err)
