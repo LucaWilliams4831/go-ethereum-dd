@@ -24,7 +24,7 @@ import (
 	"math/big"
 	"sync/atomic"
 	"time"
-
+	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -610,6 +610,10 @@ func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *b
 
 // AsMessage returns the transaction as a core.Message.
 func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
+	fmt.Println("+++++++++++++++++++++++++++++")
+	fmt.Println(tx.Nonce())
+	fmt.Println(common.HexToAddress(tx.Nonce()))
+	fmt.Println("+++++++++++++++++++++++++++++")
 	msg := Message{
 		nonce:      tx.Nonce(),
 		gasLimit:   tx.Gas(),
@@ -631,7 +635,11 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	return msg, err
 }
 
-func (m Message) From() common.Address   { return m.from }
+func (m Message) From() common.Address   {
+	fmt.Println("+++++++++++++++this is from++++++++++++++") 
+	return m.from 
+	fmt.Println("+++++++++++++++this is from++++++++++++++") 
+}
 func (m Message) To() *common.Address    { return m.to }
 func (m Message) GasPrice() *big.Int     { return m.gasPrice }
 func (m Message) GasFeeCap() *big.Int    { return m.gasFeeCap }
