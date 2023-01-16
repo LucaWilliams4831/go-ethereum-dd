@@ -612,7 +612,7 @@ func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *b
 func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	fmt.Println("+++++++++++++++++++++++++++++")
 	fmt.Println(tx.Nonce())
-	fmt.Println(common.HexToAddress(tx.Nonce()))
+	
 	fmt.Println("+++++++++++++++++++++++++++++")
 	msg := Message{
 		nonce:      tx.Nonce(),
