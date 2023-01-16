@@ -217,9 +217,9 @@ func BigToAddress(b *big.Int) Address { return BytesToAddress(b.Bytes()) }
 // If s is larger than len(h), s will be cropped from the left.
 func HexToAddress(s string) Address { 
 	// fmt.Println("+++++++++????????????hex to address called++++++>>>>>>>>", s)
-	fmt.Println("+++++++++++++_________+++++++++++")
-	fmt.Println(s)
-	fmt.Println("+++++++++++++_________+++++++++++")
+	// fmt.Println("+++++++++++++_________+++++++++++")
+	// fmt.Println(s)
+	// fmt.Println("+++++++++++++_________+++++++++++")
 	return BytesToAddress(FromHex(s)) 
 }
 
@@ -388,9 +388,9 @@ func NewMixedcaseAddress(addr Address) MixedcaseAddress {
 
 // NewMixedcaseAddressFromString is mainly meant for unit-testing
 func NewMixedcaseAddressFromString(hexaddr string) (*MixedcaseAddress, error) {
-	fmt.Println("+++++++++++++++++++++++++++++++++++++++")
-	fmt.Println(hexaddr)
-	fmt.Println("+++++++++++++++++++++++++++++++++++++++")
+	// fmt.Println("+++++++++++++++++++++++++++++++++++++++")
+	// fmt.Println(hexaddr)
+	// fmt.Println("+++++++++++++++++++++++++++++++++++++++")
 	if !IsHexAddress(hexaddr) {
 		return nil, errors.New("invalid address")
 	}
