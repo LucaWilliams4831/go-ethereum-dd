@@ -52,6 +52,7 @@ func (api *SignerAPI) sign(req *SignDataRequest, legacyV bool) (hexutil.Bytes, e
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("+++++++++++++++sign data +++++++++++++++++++++++++")
 	pw, err := api.lookupOrQueryPassword(account.Address,
 		"Password for signing",
 		fmt.Sprintf("Please enter password for signing data with account %s", account.Address.Hex()))

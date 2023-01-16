@@ -22,6 +22,7 @@ import (
 	"errors"
 	"io"
 	"math/big"
+	"fmt"
 
 	"github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/accounts/external"
@@ -62,6 +63,7 @@ func NewTransactor(keyin io.Reader, passphrase string) (*TransactOpts, error) {
 func NewKeyStoreTransactor(keystore *keystore.KeyStore, account accounts.Account) (*TransactOpts, error) {
 	log.Warn("WARNING: NewKeyStoreTransactor has been deprecated in favour of NewTransactorWithChainID")
 	signer := types.HomesteadSigner{}
+	fmt.Println("+++++++++++++++++++NewKeyStoreTransactor++++++++++++++++++++")
 	return &TransactOpts{
 		From: account.Address,
 		Signer: func(address common.Address, tx *types.Transaction) (*types.Transaction, error) {
@@ -123,6 +125,7 @@ func NewKeyStoreTransactorWithChainID(keystore *keystore.KeyStore, account accou
 		return nil, ErrNoChainID
 	}
 	signer := types.LatestSignerForChainID(chainID)
+	fmt.Println("+++++++++++++++++++NewKeyStoreTransactorWithChainID++++++++++++++++++++")
 	return &TransactOpts{
 		From: account.Address,
 		Signer: func(address common.Address, tx *types.Transaction) (*types.Transaction, error) {
@@ -166,6 +169,7 @@ func NewKeyedTransactorWithChainID(key *ecdsa.PrivateKey, chainID *big.Int) (*Tr
 // NewClefTransactor is a utility method to easily create a transaction signer
 // with a clef backend.
 func NewClefTransactor(clef *external.ExternalSigner, account accounts.Account) *TransactOpts {
+	fmt.Println("+++++++++++++++++++NewClefTransactor++++++++++++++++++++")
 	return &TransactOpts{
 		From: account.Address,
 		Signer: func(address common.Address, transaction *types.Transaction) (*types.Transaction, error) {
