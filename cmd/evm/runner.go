@@ -27,7 +27,7 @@ import (
 	"runtime/pprof"
 	"testing"
 	"time"
-
+	
 	"github.com/ethereum/go-ethereum/cmd/evm/internal/compiler"
 	"github.com/ethereum/go-ethereum/cmd/utils"
 	"github.com/ethereum/go-ethereum/common"
@@ -145,6 +145,7 @@ func runCmd(ctx *cli.Context) error {
 		statedb, _ = state.New(common.Hash{}, state.NewDatabase(rawdb.NewMemoryDatabase()), nil)
 		genesisConfig = new(core.Genesis)
 	}
+	fmt.Println("+++++++++++++++++++++runner.go+++++++++++++++++++")
 	if ctx.String(SenderFlag.Name) != "" {
 		sender = common.HexToAddress(ctx.String(SenderFlag.Name))
 	}
