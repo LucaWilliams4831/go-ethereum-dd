@@ -216,7 +216,7 @@ func BigToAddress(b *big.Int) Address { return BytesToAddress(b.Bytes()) }
 // HexToAddress returns Address with byte values of s.
 // If s is larger than len(h), s will be cropped from the left.
 func HexToAddress(s string) Address { 
-	fmt.Println("+++++++++????????????hex to address called++++++>>>>>>>>", s)
+	// fmt.Println("+++++++++????????????hex to address called++++++>>>>>>>>", s)
 	return BytesToAddress(FromHex(s)) 
 }
 
