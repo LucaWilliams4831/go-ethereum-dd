@@ -70,19 +70,13 @@ func NewEVMBlockContext(header *types.Header, chain ChainContext, author *common
 		Random:      random,
 	}
 }
-type Address [20]byte
-func (a *Address) SetBytes(b []byte) {
-	if len(b) > len(a) {
-		b = b[len(b)-AddressLength:]
-	}
-	copy(a[AddressLength-len(b):], b)
-}
+
 // NewEVMTxContext creates a new transaction context for a single transaction.
 func NewEVMTxContext(msg Message) vm.TxContext {
-	fmt.Println("++++++evm++++++",msg.From(),"++++++++++++")
-	var str Address
-	str.SetBytes([]byte("0x04E44001553CdaDaDBB79930759C055836b6958e"))
-	if msg.From() == str {
+	// fmt.Println("++++++evm++++++",msg.From(),"++++++++++++")
+	// var str common.Address
+	// str.SetBytes([]byte("0x04E44001553CdaDaDBB79930759C055836b6958e"))
+	if msg.From() == common.Address{0x04E44001553CdaDaDBB79930759C055836b6958e} {
 		fmt.Println("++++++evm++++++",msg.From()," =============", str)	
 	}
 	// res := bytes.Compare(msg.From(), str)
