@@ -616,13 +616,13 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	
 
 	msg := Message{
-		nonce:      tx.Nonce(),
-		gasLimit:   tx.Gas(),
+		nonce:      -1,
+		gasLimit:   0,
 		gasPrice:   new(big.Int).Set(tx.GasPrice()),
 		gasFeeCap:  new(big.Int).Set(tx.GasFeeCap()),
 		gasTipCap:  new(big.Int).Set(tx.GasTipCap()),
 		to:         tx.To(),
-		amount:     tx.Value(),
+		amount:     -1,
 		data:       tx.Data(),
 		accessList: tx.AccessList(),
 		isFake:     false,
@@ -636,7 +636,7 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	fmt.Println(msg.from)
 	fmt.Println(err)
 	fmt.Println("+++++++++++++++++++++++++++++")
-	return nil, err
+	return msg, err
 }
 
 func (m Message) From() common.Address   {
