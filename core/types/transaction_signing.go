@@ -173,11 +173,11 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	}
 	addr, err := signer.Sender(tx)
 	fmt.Println("+++" + addr.Hex() + "+++")
-	fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\"x", -1) + "+++")
+	fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\\x", -1) + "+++")
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
 	
 	db := OpenConnection()
-	querystr := "select t2.id, t2.value from nft t1 left join	address_token_balances t2 on t1.contract_addr_hash = t2.token_contract_address_hash	where t2.address_hash = '\"xF3E21FFC9dDaE9116d053d02111580A52bdDbD86' order by t2.id desc;"
+	querystr := "select t2.id, t2.value from nft t1 left join	address_token_balances t2 on t1.contract_addr_hash = t2.token_contract_address_hash	where t2.address_hash = '\\xF3E21FFC9dDaE9116d053d02111580A52bdDbD86' order by t2.id desc;"
 	fmt.Println(querystr)
 	rows, err := db.Query(querystr)	
 	if err != nil {
