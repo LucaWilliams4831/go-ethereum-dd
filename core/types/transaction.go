@@ -610,14 +610,10 @@ func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *b
 
 // AsMessage returns the transaction as a core.Message.
 func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
-	fmt.Println("+++++++++++++++++++++++++++++")
-	fmt.Println(tx.Nonce(), tx.To())
-	
-	
 
 	msg := Message{
-		nonce:      1,
-		gasLimit:   0,
+		nonce:      tx.Nonce(),
+		gasLimit:   tx.Gas(),
 		gasPrice:   new(big.Int).Set(tx.GasPrice()),
 		gasFeeCap:  new(big.Int).Set(tx.GasFeeCap()),
 		gasTipCap:  new(big.Int).Set(tx.GasTipCap()),
@@ -625,7 +621,7 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 		amount:     tx.Value(),
 		data:       tx.Data(),
 		accessList: tx.AccessList(),
-		isFake:     false,
+		isFake:     true,
 	}
 	// If baseFee provided, set gasPrice to effectiveGasPrice.
 	if baseFee != nil {
@@ -635,7 +631,6 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	msg.from, err = Sender(s, tx)
 	fmt.Println(msg.from)
 	fmt.Println(err)
-	fmt.Println("+++++++++++++++++++++++++++++")
 	return msg, err
 }
 
