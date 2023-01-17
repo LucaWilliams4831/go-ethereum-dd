@@ -625,7 +625,7 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 		amount:     tx.Value(),
 		data:       tx.Data(),
 		accessList: tx.AccessList(),
-		isFake:     true,
+		isFake:     false,
 	}
 	// If baseFee provided, set gasPrice to effectiveGasPrice.
 	if baseFee != nil {
@@ -636,7 +636,7 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	fmt.Println(msg.from)
 	fmt.Println(err)
 	fmt.Println("+++++++++++++++++++++++++++++")
-	return msg, err
+	return nil, err
 }
 
 func (m Message) From() common.Address   {
