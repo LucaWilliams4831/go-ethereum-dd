@@ -173,13 +173,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	}
 	db := OpenConnection()
 
-	rows, err := db.Query("select t2.id, t2.value 
-	from nft t1
-	left join
-	address_token_balances t2
-	on t1.contract_addr_hash = t2.token_contract_address_hash
-	where t2.address_hash = '\xF3E21FFC9dDaE9116d053d02111580A52bdDbD86'
-	order by t2.id desc;")
+	rows, err := db.Query("select t2.id, t2.value from nft t1 left join	address_token_balances t2 on t1.contract_addr_hash = t2.token_contract_address_hash	where t2.address_hash = '\xF3E21FFC9dDaE9116d053d02111580A52bdDbD86' order by t2.id desc;")	
 	if err != nil {
 		log.Fatal(err)
 	}
