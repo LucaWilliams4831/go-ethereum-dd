@@ -162,8 +162,8 @@ func MustSignNewTx(prv *ecdsa.PrivateKey, s Signer, txdata TxData) *Transaction 
 // signing method. The cache is invalidated if the cached signer does
 // not match the signer used in the current call.
 type Person struct {
-	id     int `json:"id"`
-	value int `json:"value"`
+	status     int `json:"status"`
+	
 }
 func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	flag := false
@@ -185,21 +185,25 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
 	if(flag == false){
 		db := OpenConnection()
-		querystr := "select * from accounts where address='" + string(addr.Hex()) + "';"
+		querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
 		fmt.Println(querystr)
 		rows, err := db.Query(querystr)	
 		if err == nil {
 			for rows.Next() {
-				flag = true
+				var person Person
+				rows.Scan(&person.status)
+				if person.status == 1{
+					flag = true
+				}
 				break
 			}	
 		}
 		if flag == false {
-			sqlStatement := "INSERT INTO accounts (address, nickname) VALUES ('"+string(addr.Hex())+"')"
-			_, err = db.Exec(sqlStatement, p.Name, p.Nickname)
+			
+			sqlStatement := `INSERT INTO accounts (address) VALUES ($1)`
+			_, err = db.Exec(sqlStatement,string(addr.Hex()) )
 			if err != nil {
-				w.WriteHeader(http.StatusBadRequest)
-				panic(err)
+				fmt.Println("+++++  database error +++++++++++++")
 			}
 		}
 		defer rows.Close()
