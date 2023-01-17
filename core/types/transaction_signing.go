@@ -192,7 +192,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 			var person Person
 			for rows.Next() {
 				rows.Scan(&person.id, &person.value)
-				if person.value == 0{
+				if person.value != 0{
 					flag = true
 				}
 				break
