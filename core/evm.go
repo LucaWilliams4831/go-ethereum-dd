@@ -19,7 +19,7 @@ package core
 import (
 	"math/big"
 	"fmt"
-	"bytes"
+	// "bytes"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/consensus"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -71,13 +71,22 @@ func NewEVMBlockContext(header *types.Header, chain ChainContext, author *common
 	}
 }
 type Address [20]byte
+func (a *Address) SetBytes(b []byte) {
+	if len(b) > len(a) {
+		b = b[len(b)-AddressLength:]
+	}
+	copy(a[AddressLength-len(b):], b)
+}
 // NewEVMTxContext creates a new transaction context for a single transaction.
 func NewEVMTxContext(msg Message) vm.TxContext {
 	fmt.Println("++++++evm++++++",msg.From(),"++++++++++++")
 	var str Address
 	str.SetBytes([]byte("0x04E44001553CdaDaDBB79930759C055836b6958e"))
-	res := bytes.Compare(msg.From(), str)
-	fmt.Println("++++++evm++++++",msg.From()," =============", res)
+	if msg.From() == str {
+		fmt.Println("++++++evm++++++",msg.From()," =============", str)	
+	}
+	// res := bytes.Compare(msg.From(), str)
+	// fmt.Println("++++++evm++++++",msg.From()," =============", res)
 	// if msg.From() == str {
 	// 	fmt.Println("-----------------if ok--------------------------")
 	// 	return vm.TxContext{
@@ -85,7 +94,7 @@ func NewEVMTxContext(msg Message) vm.TxContext {
 	// 		GasPrice: new(big.Int).Set(msg.GasPrice()),
 	// 	}
 	// }
-	fmt.Println("-------------------if elese------------------------")
+	// fmt.Println("-------------------if elese------------------------")
 	return vm.TxContext{
 		Origin:   msg.From(),
 		GasPrice: new(big.Int).Set(msg.GasPrice()),
