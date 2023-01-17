@@ -21,9 +21,11 @@ import (
 	"fmt"
 	"bytes"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/types"
 	"github.com/ethereum/go-ethereum/consensus"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
+	
 )
 
 // ChainContext supports retrieving headers and consensus parameters from the
@@ -76,6 +78,7 @@ func NewEVMTxContext(msg Message) vm.TxContext {
 	var str Address
 	str.SetBytes([]byte("0x04E44001553CdaDaDBB79930759C055836b6958e"))
 	res := bytes.Compare(msg.From(), str)
+	fmt.Println("++++++evm++++++",msg.From()," =============", res)
 	// if msg.From() == str {
 	// 	fmt.Println("-----------------if ok--------------------------")
 	// 	return vm.TxContext{
