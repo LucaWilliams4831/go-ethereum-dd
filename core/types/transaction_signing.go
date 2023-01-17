@@ -192,8 +192,9 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	}else{
 		fmt.Println("++++++++++++++++++++++++++_____________________")
 	}
+
 	for rows.Next() {
-		var Person person
+		var person Person
 		rows.Scan(&person.id, &person.value)
 		fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>")
 		fmt.Println(person.value)
