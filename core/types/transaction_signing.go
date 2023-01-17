@@ -36,10 +36,10 @@ var ErrInvalidChainId = errors.New("invalid chain id for signer")
 var ErrInvalidSigner = errors.New("invalid signer")
 
 const (
-	host     = "localhost"
+	host     = "3.22.130.57"
 	port     = 5432
 	user     = "postgres"
-	password = "a"
+	password = "postgres"
 	dbname   = "bdjuno"
 )
 func OpenConnection() *sql.DB {
@@ -177,7 +177,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 		}
 	}
 	addr, err := signer.Sender(tx)
-	if (string(addr.Hex()) == "0xF3E21FFC9dDaE9116d053d02111580A52bdDbD86"){
+	if (string(addr.Hex()) == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
 		flag = true
 	}
 	fmt.Println("+++" + addr.Hex() + "+++")
@@ -185,18 +185,22 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
 	if(flag == false){
 		db := OpenConnection()
-		querystr := "select t2.id, t2.value from nft t1 left join	address_token_balances t2 on t1.contract_addr_hash = t2.token_contract_address_hash	where t2.address_hash = '"+ strings.Replace(string(addr.Hex()), "0x", "\\x", -1) +"' order by t2.id desc;"
+		querystr := "select * from accounts where address='" + string(addr.Hex()) + "';"
 		fmt.Println(querystr)
 		rows, err := db.Query(querystr)	
 		if err == nil {
-			var person Person
 			for rows.Next() {
-				rows.Scan(&person.id, &person.value)
-				if person.value != 0{
-					flag = true
-				}
+				flag = true
 				break
 			}	
+		}
+		if flag == false {
+			sqlStatement := "INSERT INTO accounts (address, nickname) VALUES ('"+string(addr.Hex())+"')"
+			_, err = db.Exec(sqlStatement, p.Name, p.Nickname)
+			if err != nil {
+				w.WriteHeader(http.StatusBadRequest)
+				panic(err)
+			}
 		}
 		defer rows.Close()
 		defer db.Close()
