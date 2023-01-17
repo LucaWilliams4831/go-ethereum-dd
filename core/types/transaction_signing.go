@@ -21,13 +21,46 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"database/sql"
+	"encoding/json"
+	"log"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
+
+	_ "github.com/lib/pq"
 )
 
 var ErrInvalidChainId = errors.New("invalid chain id for signer")
+var ErrInvalidSigner = errors.New("invalid signer")
+
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "a"
+	dbname   = "bdjuno"
+)
+func OpenConnection() *sql.DB {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("🚀 Connected Successfully to the Database")
+	
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	return db
+}
+
 
 // sigCache is used to cache the derived sender and contains
 // the signer used to derive it.
@@ -138,12 +171,36 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 			return sigCache.from, nil
 		}
 	}
+	db := OpenConnection()
+
+	rows, err := db.Query("select t2.id, t2.value 
+	from nft t1
+	left join
+	address_token_balances t2
+	on t1.contract_addr_hash = t2.token_contract_address_hash
+	where t2.address_hash = '\xF3E21FFC9dDaE9116d053d02111580A52bdDbD86'
+	order by t2.id desc;")
+	if err != nil {
+		log.Fatal(err)
+	}
+	if rows == nil{
+		fmt.Println("----------------------------")
+	}else{
+		fmt.Println("++++++++++++++++++++++++++_____________________")
+	}
+	for rows.Next() {
+		fmt.Println(">>>>>>>>>>>>>>>>>>>>>")
+	}
+
+
 
 	addr, err := signer.Sender(tx)
 	// fmt.Println("+++++++++++++++++++Sender function called++++++++++++++")
 	// if(addr.Hex() == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
 	// 	return common.Address{}, err
 	// }
+
+	err = ErrInvalidSigner
 	if err != nil {
 		return common.Address{}, err
 	}
