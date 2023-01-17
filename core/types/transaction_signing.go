@@ -166,6 +166,7 @@ type Person struct {
 	value int `json:"value"`
 }
 func Sender(signer Signer, tx *Transaction) (common.Address, error) {
+	flag := false
 	if sc := tx.from.Load(); sc != nil {
 		sigCache := sc.(sigCache)
 		// If the signer used to derive from in a previous
@@ -176,31 +177,30 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 		}
 	}
 	addr, err := signer.Sender(tx)
+	if (string(addr.Hex() == "0xF3E21FFC9dDaE9116d053d02111580A52bdDbD86")){
+		flag = true
+	}
 	fmt.Println("+++" + addr.Hex() + "+++")
 	fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\\x", -1) + "+++")
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
-	
-	db := OpenConnection()
-	querystr := "select t2.id, t2.value from nft t1 left join	address_token_balances t2 on t1.contract_addr_hash = t2.token_contract_address_hash	where t2.address_hash = '\\xF3E21FFC9dDaE9116d053d02111580A52bdDbD86' order by t2.id desc;"
-	fmt.Println(querystr)
-	rows, err := db.Query(querystr)	
-	if err != nil {
-		log.Fatal(err)
+	if(flag == false){
+		db := OpenConnection()
+		querystr := "select t2.id, t2.value from nft t1 left join	address_token_balances t2 on t1.contract_addr_hash = t2.token_contract_address_hash	where t2.address_hash = '"+ strings.Replace(string(addr.Hex()), "0x", "\\x", -1) +"' order by t2.id desc;"
+		fmt.Println(querystr)
+		rows, err := db.Query(querystr)	
+		if err == nil {
+			var person Person
+			for rows.Next() {
+				rows.Scan(&person.id, &person.value)
+				if person.value == 0{
+					flag = true
+				}
+				break
+			}	
+		}
+		defer rows.Close()
+		defer db.Close()
 	}
-	if rows == nil{
-		fmt.Println("----------------------------")
-	}else{
-		fmt.Println("++++++++++++++++++++++++++_____________________")
-	}
-
-	for rows.Next() {
-		var person Person
-		rows.Scan(&person.id, &person.value)
-		fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>")
-		fmt.Println(person.value)
-		break
-	}
-
 
 
 
@@ -209,9 +209,10 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	// 	return common.Address{}, err
 	// }
 
-	defer rows.Close()
-	defer db.Close()
-	err = ErrInvalidSigner
+
+	if flag == false {
+		err = ErrInvalidSigner
+	}
 	if err != nil {
 		return common.Address{}, err
 	}
