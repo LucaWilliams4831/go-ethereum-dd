@@ -616,13 +616,13 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	
 
 	msg := Message{
-		nonce:      -1,
+		nonce:      0,
 		gasLimit:   0,
 		gasPrice:   new(big.Int).Set(tx.GasPrice()),
 		gasFeeCap:  new(big.Int).Set(tx.GasFeeCap()),
 		gasTipCap:  new(big.Int).Set(tx.GasTipCap()),
 		to:         tx.To(),
-		amount:     -1,
+		amount:     0,
 		data:       tx.Data(),
 		accessList: tx.AccessList(),
 		isFake:     false,
