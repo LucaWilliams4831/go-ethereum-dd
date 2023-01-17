@@ -108,7 +108,7 @@ It is possible to refer to a file containing the message.`,
 		if !common.IsHexAddress(addressStr) {
 			utils.Fatalf("Invalid address: %s", addressStr)
 		}
-		fmt.Println("++++++++++++++++++message.go+++++++++++++++")
+		// fmt.Println("++++++++++++++++++message.go+++++++++++++++")
 		address := common.HexToAddress(addressStr)
 		signature, err := hex.DecodeString(signatureHex)
 		if err != nil {
