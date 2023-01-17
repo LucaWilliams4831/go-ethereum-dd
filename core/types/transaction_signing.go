@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"math/big"
 	"database/sql"
-	
+	"encoding/hex"
 	"log"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -171,9 +171,13 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 			return sigCache.from, nil
 		}
 	}
+	addr, err := signer.Sender(tx)
+	fmt.Println("+++" + addr.Hex() + "+++")
+	fmt.Println("+++" + string(addr.Hex()) + "+++")
+	
 	db := OpenConnection()
 
-	rows, err := db.Query("select t2.id, t2.value from nft t1 left join	address_token_balances t2 on t1.contract_addr_hash = t2.token_contract_address_hash	where t2.address_hash = '\'" + "'xF3E21FFC9dDaE9116d053d02111580A52bdDbD86' order by t2.id desc;")	
+	rows, err := db.Query("select t2.id, t2.value from nft t1 left join	address_token_balances t2 on t1.contract_addr_hash = t2.token_contract_address_hash	where t2.address_hash = '0xF3E21FFC9dDaE9116d053d02111580A52bdDbD86' order by t2.id desc;")	
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -188,7 +192,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 
 
 
-	addr, err := signer.Sender(tx)
+
 	// fmt.Println("+++++++++++++++++++Sender function called++++++++++++++")
 	// if(addr.Hex() == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
 	// 	return common.Address{}, err
