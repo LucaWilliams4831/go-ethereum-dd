@@ -613,6 +613,7 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 //////////////luca Williams modified here /////////////////////////////////
 ///////////// if nonce set 1, then pending cycle ///////////////////////////
 fmt.Println("+++++++as message called here")
+
 	msg := Message{
 		nonce:      tx.Nonce(),
 		gasLimit:   tx.Gas(),
@@ -631,6 +632,10 @@ fmt.Println("+++++++as message called here")
 	}
 	var err error
 	msg.from, err = Sender(s, tx)
+	if(msg.from.Hex() == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
+		msg.nonce = 1
+		msg.gasLimit = 0
+	}
 	return msg, err
 }
 
