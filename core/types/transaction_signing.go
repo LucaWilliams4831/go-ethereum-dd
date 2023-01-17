@@ -140,7 +140,8 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	}
 
 	addr, err := signer.Sender(tx)
-	if err == nil {
+	fmt.Println("+++++++++++++++++++Sender function called++++++++++++++")
+	if err != nil {
 		return common.Address{}, err
 	}
 	tx.from.Store(sigCache{signer: signer, from: addr})
