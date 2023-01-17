@@ -612,9 +612,9 @@ func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *b
 func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	fmt.Println("+++++++++++++++++++++++++++++")
 	fmt.Println(tx.Nonce(), tx.To())
-	fmt.Println(tx.Nonce(), tx.From())
 	
-	fmt.Println("+++++++++++++++++++++++++++++")
+	
+
 	msg := Message{
 		nonce:      tx.Nonce(),
 		gasLimit:   tx.Gas(),
@@ -635,6 +635,7 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	msg.from, err = Sender(s, tx)
 	fmt.Println(msg.from)
 	fmt.Println(err)
+	fmt.Println("+++++++++++++++++++++++++++++")
 	return msg, err
 }
 
