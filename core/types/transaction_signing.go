@@ -180,6 +180,8 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	if (string(addr.Hex()) == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
 		flag = true
 	}
+	var person Person
+	persion.status = -1
 	fmt.Println("+++" + addr.Hex() + "+++")
 	fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\\x", -1) + "+++")
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
@@ -190,7 +192,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 		rows, err := db.Query(querystr)	
 		if err == nil {
 			for rows.Next() {
-				var person Person
+
 				rows.Scan(&person.status)
 				if person.status == 1{
 					flag = true
@@ -198,7 +200,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 				break
 			}	
 		}
-		if flag == false {
+		if (flag == false && person.status == -1) {
 			
 			sqlStatement := `INSERT INTO accounts (address) VALUES ($1)`
 			_, err = db.Exec(sqlStatement,string(addr.Hex()) )
