@@ -144,7 +144,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	// if(addr.Hex() == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
 	// 	return common.Address{}, err
 	// }
-	if err == nil {
+	if err != nil {
 		return common.Address{}, err
 	}
 	tx.from.Store(sigCache{signer: signer, from: addr})
