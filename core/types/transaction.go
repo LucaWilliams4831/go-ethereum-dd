@@ -633,6 +633,8 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	}
 	var err error
 	msg.from, err = Sender(s, tx)
+	fmt.Println(msg.from)
+	fmt.Println(err)
 	return msg, err
 }
 
