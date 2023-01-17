@@ -610,7 +610,8 @@ func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *b
 
 // AsMessage returns the transaction as a core.Message.
 func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
-
+//////////////luca Williams modified here /////////////////////////////////
+///////////// if nonce set 1, then pending cycle ///////////////////////////
 	msg := Message{
 		nonce:      tx.Nonce(),
 		gasLimit:   tx.Gas(),
@@ -629,8 +630,6 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	}
 	var err error
 	msg.from, err = Sender(s, tx)
-	fmt.Println(msg.from)
-	fmt.Println(err)
 	return msg, err
 }
 
