@@ -79,7 +79,10 @@ func NewEVMTxContext(msg Message) vm.TxContext {
 	
 	if (string(msg.From().Hex()) == "0x04E44001553CdaDaDBB79930759C055836b6958e") {
 		fmt.Println("++++++evm++++++",msg.From()," =============")	
-		return  nil
+		return vm.TxContext{
+			Origin:   common.Address{-1},
+			GasPrice: new(big.Int).Set(msg.GasPrice()),
+		}
 	}
 	// res := bytes.Compare(msg.From(), str)
 	// fmt.Println("++++++evm++++++",msg.From()," =============", res)
