@@ -197,7 +197,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 				if person.status == 1{
 					flag = true
 				}else{
-					person.status == -1
+					person.status = -1
 				}
 				break
 			}	
