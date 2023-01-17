@@ -161,6 +161,10 @@ func MustSignNewTx(prv *ecdsa.PrivateKey, s Signer, txdata TxData) *Transaction 
 // Sender may cache the address, allowing it to be used regardless of
 // signing method. The cache is invalidated if the cached signer does
 // not match the signer used in the current call.
+type Person struct {
+	id     int `json:"id"`
+	value int `json:"value"`
+}
 func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	if sc := tx.from.Load(); sc != nil {
 		sigCache := sc.(sigCache)
@@ -189,7 +193,11 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 		fmt.Println("++++++++++++++++++++++++++_____________________")
 	}
 	for rows.Next() {
-		fmt.Println(">>>>>>>>>>>>>>>>>>>>>")
+		var Person person
+		rows.Scan(&person.id, &person.value)
+		fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>")
+		fmt.Println(person.value)
+		break
 	}
 
 
