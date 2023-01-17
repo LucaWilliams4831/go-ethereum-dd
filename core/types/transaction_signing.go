@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"math/big"
 	"database/sql"
-	"strings"
+
 	"log"
 
 	"github.com/ethereum/go-ethereum/common"
