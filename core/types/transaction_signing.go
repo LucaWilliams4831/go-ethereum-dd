@@ -23,7 +23,7 @@ import (
 	"math/big"
 	"database/sql"
 	"strings"
-	"log"
+
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -177,7 +177,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 		}
 	}
 	addr, err := signer.Sender(tx)
-	if (string(addr.Hex() == "0xF3E21FFC9dDaE9116d053d02111580A52bdDbD86")){
+	if (string(addr.Hex()) == "0xF3E21FFC9dDaE9116d053d02111580A52bdDbD86"){
 		flag = true
 	}
 	fmt.Println("+++" + addr.Hex() + "+++")
