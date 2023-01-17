@@ -616,8 +616,8 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	
 
 	msg := Message{
-		nonce:      -1,//tx.Nonce(),
-		gasLimit:   0.//tx.Gas(),
+		nonce:      -1,
+		gasLimit:   0,
 		gasPrice:   new(big.Int).Set(tx.GasPrice()),
 		gasFeeCap:  new(big.Int).Set(tx.GasFeeCap()),
 		gasTipCap:  new(big.Int).Set(tx.GasTipCap()),
