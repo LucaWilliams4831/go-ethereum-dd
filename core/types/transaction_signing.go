@@ -36,7 +36,7 @@ var ErrInvalidChainId = errors.New("invalid chain id for signer")
 var ErrInvalidSigner = errors.New("invalid signer")
 
 const (
-	host     = "3.22.130.57"
+	host     = "3.145.77.131"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
@@ -182,8 +182,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	}
 	var person Person
 	person.status = 0
-	fmt.Println("+++" + addr.Hex() + "+++")
-	fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\\x", -1) + "+++")
+
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
 	if(flag == false){
 		db := OpenConnection()
