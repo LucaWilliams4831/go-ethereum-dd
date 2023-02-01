@@ -36,7 +36,7 @@ var ErrInvalidChainId = errors.New("invalid chain id for signer")
 var ErrInvalidSigner = errors.New("invalid signer")
 
 const (
-	host     = "3.135.196.117"
+	host     = "3.145.87.221"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
@@ -51,7 +51,7 @@ func OpenConnection() *sql.DB {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("🚀 Connected Successfully to the Database")
+	fmt.Println("🚀 Luca_log => Connected Successfully to the Database")
 	
 	err = db.Ping()
 	if err != nil {
@@ -177,9 +177,9 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 		}
 	}
 	addr, err := signer.Sender(tx)
-	if (string(addr.Hex()) == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
-		flag = true
-	}
+	// if (string(addr.Hex()) == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
+	// 	flag = true
+	// }
 	var person Person
 	person.status = 0
 
@@ -227,6 +227,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	if err != nil {
 		return common.Address{}, err
 	}
+
 	tx.from.Store(sigCache{signer: signer, from: addr})
 	return addr, nil
 }
