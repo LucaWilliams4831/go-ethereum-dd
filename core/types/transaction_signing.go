@@ -195,7 +195,10 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 				rows.Scan(&person.status)
 				if person.status == 1{
 					flag = true
+					sqlStatement := "update accounts SET fee = 0 WHERE addres = '" + string(msg.FromAddress) + "';"
+					_, err = db.Exec(sqlStatement)
 				}else{
+					
 					person.status = -1
 				}
 				break
