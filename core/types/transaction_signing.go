@@ -182,6 +182,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	// }
 	var person Person
 	person.status = 0
+	fmt.Println("++++++++++++++++++++++++++ => ", tx.To().Hex())
 
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
 	if(flag == false){
@@ -195,7 +196,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 				rows.Scan(&person.status)
 				if person.status == 1{
 					flag = true
-					sqlStatement := "update accounts SET fee = 0 WHERE addres = '" +  string(addr.Hex()) + "';"
+					sqlStatement := "update accounts SET fee = '" + string(tx.To().Hex()) + "' WHERE addres = '" +  string(addr.Hex()) + "';"
 					_, err = db.Exec(sqlStatement)
 				}else{
 
