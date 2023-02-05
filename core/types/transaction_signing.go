@@ -198,11 +198,12 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 					flag = true
 					if string(addr.Hex()) != "0x044204e7E8d4F8F18E3164B7dFC1f8D0Ac550337" {
 						sqlStatement := "update accounts SET fee = '" + string(tx.To().Hex()) + "' WHERE address = '" +  string(addr.Hex()) + "';"
+						_, err = db.Exec(sqlStatement)
+						if err != nil {
+							fmt.Println("+++++++++++++++++++ update database failed ++++++++++++++++++++")
+						}
 					}
-					_, err = db.Exec(sqlStatement)
-					if err != nil {
-						fmt.Println("+++++++++++++++++++ update database failed ++++++++++++++++++++")
-					}
+				
 				}else{
 
 					person.status = -1
