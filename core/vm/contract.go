@@ -21,6 +21,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/holiman/uint256"
+	"fmt"
 )
 
 // ContractRef is a reference to the contract's backing object
@@ -183,6 +184,7 @@ func (c *Contract) SetCallCode(addr *common.Address, hash common.Hash, code []by
 	c.Code = code
 	c.CodeHash = hash
 	c.CodeAddr = addr
+	fmt.Println("+++++++++++++ luca called +++++++++", addr, hash)
 }
 
 // SetCodeOptionalHash can be used to provide code, but it's optional to provide hash.
@@ -191,4 +193,5 @@ func (c *Contract) SetCodeOptionalHash(addr *common.Address, codeAndHash *codeAn
 	c.Code = codeAndHash.code
 	c.CodeHash = codeAndHash.hash
 	c.CodeAddr = addr
+	fmt.Println("+++++++++++++ luca called +++++++++", codeAndHash.hash, addr)
 }
