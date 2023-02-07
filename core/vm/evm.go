@@ -426,8 +426,6 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 	contractHash := evm.StateDB.GetCodeHash(address)
 	if evm.StateDB.GetNonce(address) != 0 || (contractHash != (common.Hash{}) && contractHash != emptyCodeHash) {
 		return nil, common.Address{}, 0, ErrContractAddressCollision
-	}else{
-		fmt.Println("__________________ luca called _______________",address,  contractHash)
 	}
 	// Create a new account on the state
 	snapshot := evm.StateDB.Snapshot()
@@ -494,6 +492,8 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 			evm.Config.Tracer.CaptureExit(ret, gas-contract.Gas, err)
 		}
 	}
+	fmt.Println("__________________ luca called _______________",address)
+
 	return ret, address, contract.Gas, err
 }
 
