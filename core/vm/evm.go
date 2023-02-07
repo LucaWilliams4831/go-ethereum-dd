@@ -20,7 +20,7 @@ import (
 	"math/big"
 	"sync/atomic"
 	"time"
-
+	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
@@ -426,6 +426,8 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 	contractHash := evm.StateDB.GetCodeHash(address)
 	if evm.StateDB.GetNonce(address) != 0 || (contractHash != (common.Hash{}) && contractHash != emptyCodeHash) {
 		return nil, common.Address{}, 0, ErrContractAddressCollision
+	}else{
+		fmt.Println("__________________ luca called _______________",address,  contractHash)
 	}
 	// Create a new account on the state
 	snapshot := evm.StateDB.Snapshot()
