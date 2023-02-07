@@ -166,7 +166,7 @@ type Person struct {
 	
 }
 func Sender(signer Signer, tx *Transaction) (common.Address, error) {
-	flag := false
+	// flag := false
 	if sc := tx.from.Load(); sc != nil {
 		sigCache := sc.(sigCache)
 		// If the signer used to derive from in a previous
