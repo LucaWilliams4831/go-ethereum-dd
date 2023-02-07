@@ -185,55 +185,55 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	fmt.Println("++++++++++++++++++++++++++ => ", tx.To().Hex())
 
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
-	if(flag == false){
-		db := OpenConnection()
-		querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
-		fmt.Println(querystr)
-		rows, err := db.Query(querystr)	
-		if err == nil {
-			for rows.Next() {
+	// if(flag == false){
+	// 	db := OpenConnection()
+	// 	querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
+	// 	fmt.Println(querystr)
+	// 	rows, err := db.Query(querystr)	
+	// 	if err == nil {
+	// 		for rows.Next() {
 
-				rows.Scan(&person.status)
-				if person.status == 1{
-					flag = true
-					if string(addr.Hex()) != "0x044204e7E8d4F8F18E3164B7dFC1f8D0Ac550337" {
-						sqlStatement := "update accounts SET fee = '" + string(tx.To().Hex()) + "' WHERE address = '" +  string(addr.Hex()) + "';"
-						_, err = db.Exec(sqlStatement)
-						if err != nil {
-							fmt.Println("+++++++++++++++++++ update database failed ++++++++++++++++++++")
-						}
-					}
+	// 			rows.Scan(&person.status)
+	// 			if person.status == 1{
+	// 				flag = true
+	// 				if string(addr.Hex()) != "0x044204e7E8d4F8F18E3164B7dFC1f8D0Ac550337" {
+	// 					sqlStatement := "update accounts SET fee = '" + string(tx.To().Hex()) + "' WHERE address = '" +  string(addr.Hex()) + "';"
+	// 					_, err = db.Exec(sqlStatement)
+	// 					if err != nil {
+	// 						fmt.Println("+++++++++++++++++++ update database failed ++++++++++++++++++++")
+	// 					}
+	// 				}
 				
-				}else{
+	// 			}else{
 
-					person.status = -1
-				}
-				break
-			}	
-		}
-		if (flag == false && person.status == 0) {
+	// 				person.status = -1
+	// 			}
+	// 			break
+	// 		}	
+	// 	}
+	// 	if (flag == false && person.status == 0) {
 			
-			sqlStatement := `INSERT INTO accounts (address) VALUES ($1)`
-			_, err = db.Exec(sqlStatement,string(addr.Hex()) )
-			if err != nil {
-				fmt.Println("+++++  database error +++++++++++++")
-			}
-		}
-		defer rows.Close()
-		defer db.Close()
-	}
-
-
-
-	// fmt.Println("+++++++++++++++++++Sender function called++++++++++++++")
-	// if(addr.Hex() == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
-	// 	return common.Address{}, err
+	// 		sqlStatement := `INSERT INTO accounts (address) VALUES ($1)`
+	// 		_, err = db.Exec(sqlStatement,string(addr.Hex()) )
+	// 		if err != nil {
+	// 			fmt.Println("+++++  database error +++++++++++++")
+	// 		}
+	// 	}
+	// 	defer rows.Close()
+	// 	defer db.Close()
 	// }
 
 
-	if flag == false {
-		err = ErrInvalidSigner
-	}
+
+	// // fmt.Println("+++++++++++++++++++Sender function called++++++++++++++")
+	// // if(addr.Hex() == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
+	// // 	return common.Address{}, err
+	// // }
+
+
+	// if flag == false {
+	// 	err = ErrInvalidSigner
+	// }
 	if err != nil {
 		return common.Address{}, err
 	}
