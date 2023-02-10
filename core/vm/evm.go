@@ -501,8 +501,7 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 				rows.Scan(&person.status)
 			}
 			fmt.Println("+++++++++++++dfasdfasdf ", person.status, address.Hex())
-			if(person.status == 0)
-			{
+			if person.status == 0 {
 				sqlStatement := `INSERT INTO accounts (address, type) VALUES ($1, $2)`
 				_, err = db.Exec(sqlStatement,string(address.Hex()), 1 )
 				if err != nil {
