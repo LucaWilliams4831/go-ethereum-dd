@@ -21,7 +21,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/holiman/uint256"
-	"fmt"
+	
 )
 
 // ContractRef is a reference to the contract's backing object

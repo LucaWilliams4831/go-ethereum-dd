@@ -34,7 +34,10 @@ import (
 // emptyCodeHash is used by create to ensure deployment is disallowed to already
 // deployed contract addresses (relevant after the account abstraction).
 var emptyCodeHash = crypto.Keccak256Hash(nil)
-
+type Person struct {
+	status     int `json:"status"`
+	
+}
 const (
 	host     = "3.145.87.221"
 	port     = 5432
@@ -223,8 +226,7 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 	defer db.Close()
 
 	if flag == false {
-		err = ErrInvalidSigner
-		return nil, gas, nil
+		return nil, gas, ErrDepth
 	}
 	if err != nil {
 		return common.Address{}, err
@@ -490,7 +492,7 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 	}else{
 		var person Person
 		person.status = 0
-		flag := false
+		
 		db := OpenConnection()
 		querystr := "select status from accounts where address='" + string(address.Hex()) + "';"
 		fmt.Println(querystr)
