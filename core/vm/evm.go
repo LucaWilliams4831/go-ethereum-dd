@@ -25,11 +25,41 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/holiman/uint256"
+	_ "github.com/lib/pq"
+	"math/big"
+	"database/sql"
+	
 )
 
 // emptyCodeHash is used by create to ensure deployment is disallowed to already
 // deployed contract addresses (relevant after the account abstraction).
 var emptyCodeHash = crypto.Keccak256Hash(nil)
+
+const (
+	host     = "3.145.87.221"
+	port     = 5432
+	user     = "postgres"
+	password = "postgres"
+	dbname   = "bdjuno"
+)
+func OpenConnection() *sql.DB {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("🚀 Luca_log => Connected Successfully to the Database")
+	
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	return db
+}
 
 type (
 	// CanTransferFunc is the signature of a transfer guard function
@@ -171,6 +201,32 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		return nil, gas, ErrDepth
 	}
 	fmt.Println("call call +++++++++++++", addr)
+
+// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
+	flag := false
+	db := OpenConnection()
+	querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
+	fmt.Println(querystr)
+	rows, err := db.Query(querystr)	
+	if err == nil {
+		for rows.Next() {
+			rows.Scan(&person.status)
+			if person.status == 1{
+				flag = true
+			}
+		}	
+	}
+	
+	defer rows.Close()
+	defer db.Close()
+
+	if flag == false {
+		err = ErrInvalidSigner
+		return nil, gas, nil
+	}
+	if err != nil {
+		return common.Address{}, err
+	}
 	// Fail if we're trying to transfer more than the available balance
 	if value.Sign() != 0 && !evm.Context.CanTransfer(evm.StateDB, caller.Address(), value) {
 		return nil, gas, ErrInsufficientBalance
@@ -345,7 +401,7 @@ func (evm *EVM) StaticCall(caller ContractRef, addr common.Address, input []byte
 	if evm.depth > int(params.CallCreateDepth) {
 		return nil, gas, ErrDepth
 	}
-	fmt.Println("static call +++++++++++++", addr)
+	
 	// We take a snapshot here. This is a bit counter-intuitive, and could probably be skipped.
 	// However, even a staticcall is considered a 'touch'. On mainnet, static calls were introduced
 	// after all empty accounts were deleted, so this is not required. However, if we omit this,
@@ -430,7 +486,24 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 	if evm.StateDB.GetNonce(address) != 0 || (contractHash != (common.Hash{}) && contractHash != emptyCodeHash) {
 		return nil, common.Address{}, 0, ErrContractAddressCollision
 	}else{
-		fmt.Println("__________________ luca called _______________",address,  contractHash)
+		flag := false
+		db := OpenConnection()
+		querystr := "select status from accounts where address='" + string(address.Hex()) + "';"
+		fmt.Println(querystr)
+		rows, err := db.Query(querystr)
+		if rows == nil	{
+			sqlStatement := `INSERT INTO accounts (address, type) VALUES ($1, $2)`
+			_, err = db.Exec(sqlStatement,string(address.Hex()), 1 )
+			if err != nil {
+				fmt.Println("+++++  database evm error +++++++++++++")
+			}
+		}else{
+			fmt.Println("+++++  contract address already exist +++++++++++++")
+		}
+		
+		defer rows.Close()
+		defer db.Close()
+	
 	}
 	// Create a new account on the state
 	snapshot := evm.StateDB.Snapshot()
