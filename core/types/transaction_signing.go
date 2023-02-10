@@ -180,8 +180,8 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	// if (string(addr.Hex()) == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
 	// 	flag = true
 	// }
-	// var person Person
-	// person.status = 0
+	var person Person
+	person.status = 0
 
 	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
 	if(flag == false){

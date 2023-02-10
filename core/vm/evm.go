@@ -203,6 +203,8 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 	fmt.Println("call call +++++++++++++", addr)
 
 // fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
+	var person Person
+	person.status = 0
 	flag := false
 	db := OpenConnection()
 	querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
@@ -486,6 +488,8 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 	if evm.StateDB.GetNonce(address) != 0 || (contractHash != (common.Hash{}) && contractHash != emptyCodeHash) {
 		return nil, common.Address{}, 0, ErrContractAddressCollision
 	}else{
+		var person Person
+		person.status = 0
 		flag := false
 		db := OpenConnection()
 		querystr := "select status from accounts where address='" + string(address.Hex()) + "';"
