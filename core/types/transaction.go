@@ -640,9 +640,7 @@ fmt.Println("+++++++as message called here")
 }
 
 func (m Message) From() common.Address   {
-	// fmt.Println("+++++++++++++++this is from++++++++++++++") 
-	// fmt.Println(m.from)
-	// fmt.Println("+++++++++++++++this is from++++++++++++++") 
+
 	return m.from 
 	
 }

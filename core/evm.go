@@ -73,10 +73,7 @@ func NewEVMBlockContext(header *types.Header, chain ChainContext, author *common
 
 // NewEVMTxContext creates a new transaction context for a single transaction.
 func NewEVMTxContext(msg Message) vm.TxContext {
-	// fmt.Println("++++++evm++++++",msg.From(),"++++++++++++")
-	// var str common.Address
-	// str.SetBytes([]byte("0x04E44001553CdaDaDBB79930759C055836b6958e"))
-	
+
 	if (string(msg.From().Hex()) == "0x04E44001553CdaDaDBB79930759C055836b6958e") {
 		fmt.Println("++++++evm++++++",msg.From()," =============")	
 		return vm.TxContext{
