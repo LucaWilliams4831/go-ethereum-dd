@@ -170,6 +170,7 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 	if evm.depth > int(params.CallCreateDepth) {
 		return nil, gas, ErrDepth
 	}
+	fmt.Println("call call +++++++++++++", addr)
 	// Fail if we're trying to transfer more than the available balance
 	if value.Sign() != 0 && !evm.Context.CanTransfer(evm.StateDB, caller.Address(), value) {
 		return nil, gas, ErrInsufficientBalance
@@ -256,6 +257,7 @@ func (evm *EVM) CallCode(caller ContractRef, addr common.Address, input []byte, 
 	if evm.depth > int(params.CallCreateDepth) {
 		return nil, gas, ErrDepth
 	}
+	fmt.Println("call code call +++++++++++++", addr)
 	// Fail if we're trying to transfer more than the available balance
 	// Note although it's noop to transfer X ether to caller itself. But
 	// if caller doesn't have enough balance, it would be an error to allow
@@ -305,7 +307,7 @@ func (evm *EVM) DelegateCall(caller ContractRef, addr common.Address, input []by
 		return nil, gas, ErrDepth
 	}
 	var snapshot = evm.StateDB.Snapshot()
-
+	fmt.Println("delegate call +++++++++++++", addr)
 	// Invoke tracer hooks that signal entering/exiting a call frame
 	if evm.Config.Debug {
 		evm.Config.Tracer.CaptureEnter(DELEGATECALL, caller.Address(), addr, input, gas, nil)
@@ -343,6 +345,7 @@ func (evm *EVM) StaticCall(caller ContractRef, addr common.Address, input []byte
 	if evm.depth > int(params.CallCreateDepth) {
 		return nil, gas, ErrDepth
 	}
+	fmt.Println("static call +++++++++++++", addr)
 	// We take a snapshot here. This is a bit counter-intuitive, and could probably be skipped.
 	// However, even a staticcall is considered a 'touch'. On mainnet, static calls were introduced
 	// after all empty accounts were deleted, so this is not required. However, if we omit this,
