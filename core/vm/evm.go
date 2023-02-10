@@ -26,7 +26,7 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/holiman/uint256"
 	_ "github.com/lib/pq"
-	"math/big"
+
 	"database/sql"
 	
 )
