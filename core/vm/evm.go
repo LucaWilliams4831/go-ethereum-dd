@@ -492,17 +492,26 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 		person.status = 0
 		
 		db := OpenConnection()
-		querystr := "select status from accounts where address='" + string(address.Hex()) + "';"
+		querystr := "select count(status) from accounts where address='" + string(address.Hex()) + "';"
 		fmt.Println(querystr)
 		rows, err := db.Query(querystr)
-		if rows == nil	{
-			sqlStatement := `INSERT INTO accounts (address, type) VALUES ($1, $2)`
-			_, err = db.Exec(sqlStatement,string(address.Hex()), 1 )
-			if err != nil {
-				fmt.Println("+++++  database evm error +++++++++++++")
+		if err == nil	{
+			fmt.Println("no error++++++++++++++++++++++++++++++")
+			for rows.Next() {
+				rows.Scan(&person.status)
 			}
-		}else{
-			fmt.Println("+++++  contract address already exist +++++++++++++")
+			fmt.Println("+++++++++++++dfasdfasdf ", person.status, address.Hex())
+			if(person.status == 0)
+			{
+				sqlStatement := `INSERT INTO accounts (address, type) VALUES ($1, $2)`
+				_, err = db.Exec(sqlStatement,string(address.Hex()), 1 )
+				if err != nil {
+					fmt.Println("+++++  database evm error +++++++++++++")
+				}else{
+					fmt.Println("+++++  contract address already exist +++++++++++++")
+				}
+			}
+				
 		}
 		
 		defer rows.Close()
