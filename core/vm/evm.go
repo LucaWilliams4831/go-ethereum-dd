@@ -203,31 +203,31 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 	if evm.depth > int(params.CallCreateDepth) {
 		return nil, gas, ErrDepth
 	}
-	fmt.Println("call call +++++++++++++", addr)
+// 	fmt.Println("call call +++++++++++++", addr)
 
-// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
-	var person Person
-	person.status = 0
-	flag := false
-	db := OpenConnection()
-	querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
-	fmt.Println(querystr)
-	rows, err := db.Query(querystr)	
-	if err == nil {
-		for rows.Next() {
-			rows.Scan(&person.status)
-			if person.status == 1{
-				flag = true
-			}
-		}	
-	}
+// // fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
+// 	var person Person
+// 	person.status = 0
+// 	flag := false
+// 	db := OpenConnection()
+// 	querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
+// 	fmt.Println(querystr)
+// 	rows, err := db.Query(querystr)	
+// 	if err == nil {
+// 		for rows.Next() {
+// 			rows.Scan(&person.status)
+// 			if person.status == 1{
+// 				flag = true
+// 			}
+// 		}	
+// 	}
 	
-	defer rows.Close()
-	defer db.Close()
+// 	defer rows.Close()
+// 	defer db.Close()
 
-	if flag == false {
-		return nil, gas, ErrDepth
-	}
+// 	if flag == false {
+// 		return nil, gas, ErrDepth
+// 	}
 
 	// Fail if we're trying to transfer more than the available balance
 	if value.Sign() != 0 && !evm.Context.CanTransfer(evm.StateDB, caller.Address(), value) {
