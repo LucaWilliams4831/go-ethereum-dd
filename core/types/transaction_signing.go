@@ -225,6 +225,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 
 
 	if flag == false {
+		fmt.Println("sign error ", querystr)
 		err = ErrInvalidSigner
 	}
 	if err != nil {
