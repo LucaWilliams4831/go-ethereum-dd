@@ -36,7 +36,7 @@ import (
 var emptyCodeHash = crypto.Keccak256Hash(nil)
 type Person struct {
 	status     int `json:"status"`,
-	typer     int `json:"status"`
+	
 	
 }
 const (
@@ -280,31 +280,32 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		//	evm.StateDB.DiscardSnapshot(snapshot)
 	}
 	
+	if string(addr.Hex()) != "0x0000000000000000000000000000000000000000" {
+		var person Person
+		person.status = 0
+		
+		flag := false
+		db := OpenConnection()
+		querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
+		fmt.Println("luca here called sql", querystr, "hehe")
+		rows, err := db.Query(querystr)	
+		if err == nil {
+			for rows.Next() {
+				rows.Scan(&person.status)
+				if person.status == 1{
+					flag = true
+				}
+			}	
+		}
+		
+		defer rows.Close()
+		defer db.Close()
 	
-	var person Person
-	person.status = 0
-	person.typer = 0
-	flag := false
-	db := OpenConnection()
-	querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
-	fmt.Println("luca here called sql", querystr, "hehe")
-	rows, err := db.Query(querystr)	
-	if err == nil {
-		for rows.Next() {
-			rows.Scan(&person.status, &person.type)
-			if person.status == 1{
-				flag = true
-			}
-		}	
-		fmt.Println("+++++++++++++++++++++", person.type)
+		if flag == false {
+			return nil, gas, ErrDepth
+		}
 	}
 	
-	defer rows.Close()
-	defer db.Close()
-
-	if flag == false {
-		return nil, gas, ErrDepth
-	}
 	return ret, gas, err
 }
 
