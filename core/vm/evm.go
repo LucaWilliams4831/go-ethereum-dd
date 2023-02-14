@@ -39,7 +39,7 @@ type Person struct {
 	
 }
 const (
-	host     = "3.145.87.221"
+	host     = "18.221.73.100"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
@@ -203,7 +203,7 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 	if evm.depth > int(params.CallCreateDepth) {
 		return nil, gas, ErrDepth
 	}
-// 	fmt.Println("call call +++++++++++++", addr)
+ 	fmt.Println("call call +++++++++++++", addr)
 
 // // fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
 // 	var person Person
@@ -315,7 +315,7 @@ func (evm *EVM) CallCode(caller ContractRef, addr common.Address, input []byte, 
 	if evm.depth > int(params.CallCreateDepth) {
 		return nil, gas, ErrDepth
 	}
-	fmt.Println("call code call +++++++++++++", addr)
+	fmt.Println("call code call ++++++++++++++++++++++++++", addr)
 	// Fail if we're trying to transfer more than the available balance
 	// Note although it's noop to transfer X ether to caller itself. But
 	// if caller doesn't have enough balance, it would be an error to allow
