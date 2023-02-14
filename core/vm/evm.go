@@ -35,9 +35,7 @@ import (
 // deployed contract addresses (relevant after the account abstraction).
 var emptyCodeHash = crypto.Keccak256Hash(nil)
 type Person struct {
-	status     int `json:"status"`,
-	
-	
+	status     int `json:"status"`
 }
 const (
 	host     = "18.221.73.100"
