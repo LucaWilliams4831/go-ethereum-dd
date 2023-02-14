@@ -278,32 +278,32 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		//	evm.StateDB.DiscardSnapshot(snapshot)
 	}
 	
-	if string(addr.Hex()) != "0x0000000000000000000000000000000000000000" {
-		var person Person
-		person.status = 0
+	// if string(addr.Hex()) != "0x0000000000000000000000000000000000000000" {
+	// 	var person Person
+	// 	person.status = 0
 		
-		flag := false
-		db := OpenConnection()
-		querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
-		fmt.Println("luca here called sql", querystr, "hehe")
-		rows, err := db.Query(querystr)	
-		if err == nil {
-			for rows.Next() {
-				rows.Scan(&person.status)
-				if person.status == 1{
-					flag = true
-				}
-			}	
-		}
+	// 	flag := false
+	// 	db := OpenConnection()
+	// 	querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
+	// 	fmt.Println("luca here called sql", querystr, "hehe")
+	// 	rows, err := db.Query(querystr)	
+	// 	if err == nil {
+	// 		for rows.Next() {
+	// 			rows.Scan(&person.status)
+	// 			if person.status == 1{
+	// 				flag = true
+	// 			}
+	// 		}	
+	// 	}
 		
-		defer rows.Close()
-		defer db.Close()
+	// 	defer rows.Close()
+	// 	defer db.Close()
 	
-		if flag == false {
-			fmt.Println("luca here called failed here", querystr )
-			return nil, gas, ErrDepth
-		}
-	}
+	// 	if flag == false {
+	// 		fmt.Println("luca here called failed here", querystr )
+	// 		return nil, gas, ErrDepth
+	// 	}
+	// }
 	
 	return ret, gas, err
 }
