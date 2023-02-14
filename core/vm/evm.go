@@ -300,6 +300,7 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		defer db.Close()
 	
 		if flag == false {
+			fmt.Println("luca here called failed here", querystr )
 			return nil, gas, ErrDepth
 		}
 	}
