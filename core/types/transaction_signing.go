@@ -183,7 +183,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	var person Person
 	person.status = 0
 	querystr := ""
-	// fmt.Println("+++" + strings.Replace(string(addr.Hex()), "0x", "\x", -1) + "+++")
+	fmt.Println(string(tx.To().Hex()))
 	if(flag == false){
 		db := OpenConnection()
 		querystr = "select status from accounts where address='" + string(addr.Hex()) + "';"
