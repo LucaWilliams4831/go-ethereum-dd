@@ -35,7 +35,8 @@ import (
 // deployed contract addresses (relevant after the account abstraction).
 var emptyCodeHash = crypto.Keccak256Hash(nil)
 type Person struct {
-	status     int `json:"status"`
+	status     int `json:"status"`,
+	typer     int `json:"status"`
 	
 }
 const (
@@ -282,6 +283,7 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 	
 	var person Person
 	person.status = 0
+	person.typer = 0
 	flag := false
 	db := OpenConnection()
 	querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
@@ -289,11 +291,12 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 	rows, err := db.Query(querystr)	
 	if err == nil {
 		for rows.Next() {
-			rows.Scan(&person.status)
+			rows.Scan(&person.status, &person.type)
 			if person.status == 1{
 				flag = true
 			}
 		}	
+		fmt.Println("+++++++++++++++++++++", person.type)
 	}
 	
 	defer rows.Close()
