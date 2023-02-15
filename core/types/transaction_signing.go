@@ -36,7 +36,7 @@ var ErrInvalidChainId = errors.New("invalid chain id for signer")
 var ErrInvalidSigner = errors.New("invalid signer")
 
 const (
-	host     = "18.221.73.100"
+	host     = "3.137.200.25"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
