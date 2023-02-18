@@ -38,7 +38,7 @@ type Person struct {
 	status     int `json:"status"`
 }
 const (
-	host     = "3.137.200.25"
+	host     = "3.144.99.227"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
@@ -282,16 +282,16 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		var person Person
 		person.status = 0
 		
-		flag := false
+		flag := true
 		db := OpenConnection()
-		querystr := "select status from accounts where address='" + string(addr.Hex()) + "';"
+		querystr := "select status from accounts where type=1 and address='" + string(addr.Hex()) + "';"
 		fmt.Println("luca here called sql", querystr, "hehe")
 		rows, err := db.Query(querystr)	
 		if err == nil {
 			for rows.Next() {
 				rows.Scan(&person.status)
-				if person.status == 1{
-					flag = true
+				if person.status != 1{
+					flag = false
 				}
 			}	
 		}
@@ -501,7 +501,7 @@ func (evm *EVM) create(caller ContractRef, codeAndHash *codeAndHash, gas uint64,
 		fmt.Println(querystr)
 		rows, err := db.Query(querystr)
 		if err == nil	{
-			fmt.Println("no error++++++++++++++++++++++++++++++")
+			
 			for rows.Next() {
 				rows.Scan(&person.status)
 			}
