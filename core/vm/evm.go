@@ -284,7 +284,7 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		
 		flag := true
 		db := OpenConnection()
-		querystr := "select status from accounts where type=1 and address='" + string(addr.Hex()) + "';"
+		querystr := "select status from accounts where type = '1' and address='" + string(addr.Hex()) + "';"
 		fmt.Println("luca here called sql", querystr, "hehe")
 		rows, err := db.Query(querystr)	
 		if err == nil {
