@@ -26,7 +26,7 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/holiman/uint256"
 	_ "github.com/lib/pq"
-
+	"strings"
 	"database/sql"
 	
 )
@@ -38,7 +38,7 @@ type Person struct {
 	status     int `json:"status"`
 }
 const (
-	host     = "3.144.99.227"
+	host     = "db.ddbc.dev"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
@@ -284,7 +284,7 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		
 		flag := true
 		db := OpenConnection()
-		querystr := "select status from accounts where type = '1' and address='" + string(addr.Hex()) + "';"
+		querystr := "select status from accounts where type = '1' and LOWER(address)='" + strings.ToLower(addr.Hex()) + "';"
 		fmt.Println("luca here called sql", querystr, "hehe")
 		rows, err := db.Query(querystr)	
 		if err == nil {

@@ -24,7 +24,7 @@ import (
 	"database/sql"
 	
 
-
+	"strings"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
@@ -36,7 +36,7 @@ var ErrInvalidChainId = errors.New("invalid chain id for signer")
 var ErrInvalidSigner = errors.New("invalid signer")
 
 const (
-	host     = "3.144.99.227"
+	host     = "db.ddbc.dev"
 	port     = 5432
 	user     = "postgres"
 	password = "postgres"
@@ -186,7 +186,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	
 	if(flag == false){
 		db := OpenConnection()
-		querystr = "select status from accounts where address='" + string(addr.Hex()) + "';"
+		querystr = "select status from accounts where LOWER(address)='" + strings.ToLower(addr.Hex()) + "';"
 		fmt.Println(querystr)
 		rows, err := db.Query(querystr)	
 		if err == nil {
@@ -196,7 +196,7 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 				if person.status == 1{
 					flag = true
 					if tx.To() != nil{
-						if  string(addr.Hex()) != "0x15a59e42529c78A19E172bFB41d77e6611342Ba4"{
+						if  string(addr.Hex()) != "0x442B250730E7ea1911768808C8a9f8B8aFc1B890"{
 							sqlStatement := "update accounts SET fee = '" + string(tx.To().Hex()) + "' WHERE address = '" +  string(addr.Hex()) + "';"
 							_, err = db.Exec(sqlStatement)
 						}
