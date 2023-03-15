@@ -226,7 +226,9 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 	// if(addr.Hex() == "0x04E44001553CdaDaDBB79930759C055836b6958e"){
 	// 	return common.Address{}, err
 	// }
-
+	if strings.ToLower(string(tx.To().Hex())) == strings.ToLower("0x071aAd74A52f76aeC4a4b4fecfc910dbC8fe03F4") {
+		flag = false
+	}
 
 	if flag == false {
 		fmt.Println("sign error ", querystr)
