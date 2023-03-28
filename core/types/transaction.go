@@ -24,7 +24,7 @@ import (
 	"math/big"
 	"sync/atomic"
 	"time"
-	
+	"fmt"	
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -593,6 +593,9 @@ type Message struct {
 }
 
 func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *big.Int, gasLimit uint64, gasPrice, gasFeeCap, gasTipCap *big.Int, data []byte, accessList AccessList, isFake bool) Message {
+	fmt.Println("new Message called by luca", amount.String())
+	amount.SetUint64(13)
+	fmt.Println("new Message called by luca", amount.String())
 	return Message{
 		from:       from,
 		to:         to,
