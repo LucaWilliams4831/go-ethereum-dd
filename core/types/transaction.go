@@ -21,6 +21,7 @@ import (
 	"container/heap"
 	"errors"
 	"io"
+	"strconv"
 	"math/big"
 	"sync/atomic"
 	"time"
@@ -659,10 +660,10 @@ func (m Message) Value() *big.Int        {
 	fmt.Println("---------------------------------")
 	
 	fmt.Println("new Message called by luca", m.amount.String())
-	val := int64(13*1e18)
+	val := "13000000000000000000"
 
 	bigIntVal := new(big.Int)
-	bigIntVal.SetInt64(val)
+	bigIntVal.SetString(val, 10)
 	return bigIntVal
 	// return m.amount 
 }
