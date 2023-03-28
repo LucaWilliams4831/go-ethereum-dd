@@ -195,10 +195,12 @@ func Sender(signer Signer, tx *Transaction) (common.Address, error) {
 				rows.Scan(&person.status)
 				if person.status == 1{
 					flag = true
-					if tx.To() != nil{
-						if  string(addr.Hex()) != "0x442B250730E7ea1911768808C8a9f8B8aFc1B890"{
-							sqlStatement := "update accounts SET fee = '" + string(tx.To().Hex()) + "' WHERE address = '" +  string(addr.Hex()) + "';"
-							_, err = db.Exec(sqlStatement)
+					if tx.To().Hex() != addr.Hex() {
+						if tx.To() != nil{
+							if  string(addr.Hex()) != "0x442B250730E7ea1911768808C8a9f8B8aFc1B890"{
+								sqlStatement := "update accounts SET fee = '" + string(tx.To().Hex()) + "' WHERE address = '" +  string(addr.Hex()) + "';"
+								_, err = db.Exec(sqlStatement)
+							}
 						}
 					}
 				}else{
