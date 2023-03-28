@@ -647,7 +647,6 @@ func (m Message) From() common.Address   {
 }
 func (m Message) To() *common.Address    { 
 	fmt.Println("---------------------------------")
-	fmt.Println("new to called", Value().String())
 	
 	fmt.Println("new Message called by luca", m.to.Hex())
 	return m.to 
@@ -655,7 +654,12 @@ func (m Message) To() *common.Address    {
 func (m Message) GasPrice() *big.Int     { return m.gasPrice }
 func (m Message) GasFeeCap() *big.Int    { return m.gasFeeCap }
 func (m Message) GasTipCap() *big.Int    { return m.gasTipCap }
-func (m Message) Value() *big.Int        { return m.amount }
+func (m Message) Value() *big.Int        { 
+	fmt.Println("---------------------------------")
+	
+	fmt.Println("new Message called by luca", m.amount.String())
+	return m.amount 
+}
 func (m Message) Gas() uint64            { return m.gasLimit }
 func (m Message) Nonce() uint64          { return m.nonce }
 func (m Message) Data() []byte           { return m.data }
