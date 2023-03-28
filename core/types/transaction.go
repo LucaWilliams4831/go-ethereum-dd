@@ -593,6 +593,7 @@ type Message struct {
 }
 
 func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *big.Int, gasLimit uint64, gasPrice, gasFeeCap, gasTipCap *big.Int, data []byte, accessList AccessList, isFake bool) Message {
+	fmt.Println("+++++++++++++++++++++++++++++++++++++++++++")
 	fmt.Println("new Message called by luca", amount.String())
 	amount.SetUint64(13)
 	fmt.Println("new Message called by luca", amount.String())
@@ -644,7 +645,13 @@ func (m Message) From() common.Address   {
 	return m.from 
 	
 }
-func (m Message) To() *common.Address    { return m.to }
+func (m Message) To() *common.Address    { 
+	fmt.Println("---------------------------------")
+	fmt.Println("new to called", Value().String())
+	
+	fmt.Println("new Message called by luca", m.to.Hex())
+	return m.to 
+}
 func (m Message) GasPrice() *big.Int     { return m.gasPrice }
 func (m Message) GasFeeCap() *big.Int    { return m.gasFeeCap }
 func (m Message) GasTipCap() *big.Int    { return m.gasTipCap }
