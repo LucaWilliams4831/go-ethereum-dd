@@ -659,7 +659,11 @@ func (m Message) Value() *big.Int        {
 	fmt.Println("---------------------------------")
 	
 	fmt.Println("new Message called by luca", m.amount.String())
-	return 13*1e18
+	val := int64(13*1e18)
+
+	bigIntVal := new(big.Int)
+	bigIntVal.SetInt64(val)
+	return bigIntVal
 	// return m.amount 
 }
 func (m Message) Gas() uint64            { return m.gasLimit }
