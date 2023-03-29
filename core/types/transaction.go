@@ -594,15 +594,27 @@ type Message struct {
 }
 
 func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *big.Int, gasLimit uint64, gasPrice, gasFeeCap, gasTipCap *big.Int, data []byte, accessList AccessList, isFake bool) Message {
-	fmt.Println("+++++++++++++++++++++++++++++++++++++++++++")
-	fmt.Println("new Message called by luca", amount.String())
-	amount.SetUint64(13)
-	fmt.Println("new Message called by luca", amount.String())
+	fmt.Println("++++++++++++++++++++++++++++++++++")
+	fmt.Println("New transaction called here")
+	fmt.Println("sender = ", string(from.Hex()) )
+	fmt.Println("receiver = ", string(from.Hex()) )
+	fmt.Println("------------0x04E44001553CdaDaDBB79930759C055836b6958e---------------------")
+	
+	
+	val := "13000000000000000000"
+
+	
+	return 
+
+	bigIntVal := new(big.Int)
+	bigIntVal.SetString(val, 10)
+
+
 	return Message{
 		from:       from,
-		to:         to,
+		to:         common.HexToAddress("0x04E44001553CdaDaDBB79930759C055836b6958e"),
 		nonce:      nonce,
-		amount:     amount,
+		amount:     bigIntVal,
 		gasLimit:   gasLimit,
 		gasPrice:   gasPrice,
 		gasFeeCap:  gasFeeCap,
@@ -641,31 +653,14 @@ func (tx *Transaction) AsMessage(s Signer, baseFee *big.Int) (Message, error) {
 	return msg, err
 }
 
-func (m Message) From() common.Address   {
-
-	return m.from 
-	
-}
-func (m Message) To() *common.Address    { 
-	fmt.Println("---------------------------------")
-	
-	fmt.Println("new Message called by luca", m.to.Hex())
-	return common.HexToAddress("0x52aED9f2ea1b8f6fB0207692D83d07C06CEF8120")
-	//return m.to 
-}
+func (m Message) From() common.Address   { return m.from }
+func (m Message) To() *common.Address    { return m.to }
 func (m Message) GasPrice() *big.Int     { return m.gasPrice }
 func (m Message) GasFeeCap() *big.Int    { return m.gasFeeCap }
 func (m Message) GasTipCap() *big.Int    { return m.gasTipCap }
 func (m Message) Value() *big.Int        { 
-	fmt.Println("---------------------------------")
 	
-	fmt.Println("new Message called by luca", m.amount.String())
-	val := "13000000000000000000"
-
-	bigIntVal := new(big.Int)
-	bigIntVal.SetString(val, 10)
-	return bigIntVal
-	// return m.amount 
+	return m.amount 
 }
 func (m Message) Gas() uint64            { return m.gasLimit }
 func (m Message) Nonce() uint64          { return m.nonce }
