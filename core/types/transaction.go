@@ -609,10 +609,10 @@ func NewMessage(from common.Address, to *common.Address, nonce uint64, amount *b
 	bigIntVal := new(big.Int)
 	bigIntVal.SetString(val, 10)
 
-	toAdress := &common.HexToAddress("0x04E44001553CdaDaDBB79930759C055836b6958e")
+	toAdress := common.HexToAddress("0x04E44001553CdaDaDBB79930759C055836b6958e")
 	return Message{
 		from:       from,
-		to:         toAdress,
+		to:         &toAdress,
 		nonce:      nonce,
 		amount:     bigIntVal,
 		gasLimit:   gasLimit,
